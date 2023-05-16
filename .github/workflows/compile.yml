@@ -179,11 +179,11 @@ jobs:
       if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true' && env.ING_FIRMWAR == 'true' && env.REPO_TOKEN
       uses: ncipollo/release-action@main
       with:
-        name: ${{ env.SOURCE }}-${{ env.PROMPT_TING }}
-        tag: a${{ env.date }}
+        name: 📦‍ 固件下载 | ${{ env.SOURCE }}-${{ env.PROMPT_TING }} | ${{ env.date }}
+        tag: ${{ env.date }} +"%Y.%m.%d
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
-        body: ${{ env.Tongzhi_Date }}
+        body: "## 🗒️ 固件信息</br>- 发布日期：${{ env.Tongzhi_Date }}</br>- 🔗 后台地址：192.168.10.1"
         artifacts: "${{ env.FIRMWARE_PATH }}/*"
         
     - name: 发送[在线更新固件]至云端1
@@ -212,12 +212,12 @@ jobs:
       if: steps.autoup.outcome == 'success' && env.UPDATE_FIRMWARE_ONLINE == 'true' && env.REPO_TOKEN
       uses: ncipollo/release-action@main
       with:
-        name: AutoUpdate-${{ env.TARGET_BOARD }}
+        name: 🆙‍ 固件更新 | ${{ env.TARGET_BOARD }} | ${{ env.date }}
         tag: ${{ env.TARGET_BOARD }}
         token: ${{ secrets.REPO_TOKEN }}
         artifacts: "Github_Api/*"
         allowUpdates: true
-        body: ${{ env.Tongzhi_Date }}
+        body: "## 🗒️ 固件信息</br>- 发布日期：${{ env.Tongzhi_Date }}</br>- 🔗 后台地址：192.168.10.1"
 
     - name: 电报机器人或pushplus信息通知
       if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG'
