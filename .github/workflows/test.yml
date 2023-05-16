@@ -78,7 +78,6 @@ jobs:
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
         body: "## 🗒️ 固件信息</br>- 发布日期：${{ env.Tongzhi_Date }}</br>- 🔗 后台地址：192.168.10.1"
-        artifacts: "${{ env.FIRMWARE_PATH }}/*"
         
     - name: 发送[在线更新固件]至云端1
       id: autoup
