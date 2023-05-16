@@ -175,6 +175,15 @@ jobs:
         sed -i "s/Download Link/WETRANSFER/g" wetransfer.log
         echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
     
+    - name: 发布信息生成
+      if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true' && env.ING_FIRMWAR == 'true' && env.REPO_TOKEN
+      run: |
+        touch release.txt
+        echo "## 🗒️ 固件信息" >> release.txt
+        [ $UPLOAD_WETRANSFER = true ] && echo "- 🚀 [点我快速下载](${{ steps.wetransfer.outputs.url }})" >> release.txt
+        echo "- 🔗 后台地址：192.168.10.1" >> release.txt
+        echo "- 🔑 后台密码：password" >> release.txt
+
     - name: 发布固件
       if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true' && env.ING_FIRMWAR == 'true' && env.REPO_TOKEN
       uses: ncipollo/release-action@main
@@ -183,7 +192,7 @@ jobs:
         tag: t${{ env.date }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
-        body: "## 🗒️ 固件信息</br>- 发布日期：${{ env.Tongzhi_Date }}</br>- 🔗 后台地址：192.168.10.1"
+        bodyFile: release.txt
         artifacts: "${{ env.FIRMWARE_PATH }}/*"
         
     - name: 发送[在线更新固件]至云端1
