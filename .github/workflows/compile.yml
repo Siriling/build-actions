@@ -180,7 +180,7 @@ jobs:
       uses: ncipollo/release-action@main
       with:
         name: 📦‍ 固件下载 | ${{ env.SOURCE }}-${{ env.PROMPT_TING }} | ${{ env.date }}
-        tag: a${{ env.date }}
+        tag: t${{ env.date }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
         body: "## 🗒️ 固件信息</br>- 发布日期：${{ env.Tongzhi_Date }}</br>- 🔗 后台地址：192.168.10.1"

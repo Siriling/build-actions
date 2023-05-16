@@ -60,24 +60,24 @@ jobs:
 
     - name: CPU检测
       run: |
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
-        if [[ -n "${{ github.event.workflow }}" ]]; then
-          export CPU_SELECTIOY="$(source "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/settings.ini" && echo "${CPU_SELECTION}")"
-        else
-          export CPU_PASSWORD="1684224661"
-          export CPU_OPTIMIZATION="E5"
-        fi
-        source build/${FOLDER_NAME}/common.sh && CPU_Priority
+        touch release.txt
+        echo "## 🗒️ 固件信息" >> release.txt
+        [ $UPLOAD_WETRANSFER = true ] && echo "- 🚀 [点我快速下载](${{ steps.wetransfer.outputs.url }})" >> release.txt
+        echo "- 🔗 后台地址：192.168.10.1" >> release.txt
+        echo "- 🔑 后台密码：password" >> release.txt
+        echo "## 🍻 固件类型" >> release.txt
+        echo "- 完整版：full" >> release.txt
+        echo "- 精简版：simplify" >> release.txt
+        echo "status=success" >> $GITHUB_OUTPUT
     
     - name: 发布固件
       uses: ncipollo/release-action@main
       with:
         name: 📦‍ 固件下载 | ${{ env.SOURCE }}-${{ env.PROMPT_TING }} | ${{ env.date }}
-        tag: a${{ env.date }}
+        tag: t${{ env.date }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
-        body: "## 🗒️ 固件信息</br>- 发布日期：${{ env.Tongzhi_Date }}</br>- 🔗 后台地址：192.168.10.1"
+        body_path: release.txt
         
     - name: 发送[在线更新固件]至云端1
       id: autoup
