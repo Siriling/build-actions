@@ -77,7 +77,7 @@ jobs:
         tag: t${{ env.date }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
-        body_path: release.txt
+        bodyFile: release.txt
         
     - name: 发送[在线更新固件]至云端1
       id: autoup
