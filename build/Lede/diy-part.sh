@@ -14,6 +14,11 @@ svn export https://github.com/openwrt/openwrt/trunk/package/kernel/mac80211 pack
 svn export https://github.com/DHDAXCW/lede-rockchip/trunk/package/kernel/mt76 package/kernel/mt76
 svn export https://github.com/openwrt/openwrt/trunk/package/network/services/hostapd package/network/services/hostapd
 
+# Fix mt76 wireless driver
+pushd package/kernel/mt76
+sed -i '/mt7662u_rom_patch.bin/a\\techo mt76-usb disable_usb_sg=1 > $\(1\)\/etc\/modules.d\/mt76-usb' Makefile
+popd
+
 # Add luci-app-dockerman
 rm -rf ../../customfeeds/luci/collections/luci-lib-docker
 rm -rf ../../customfeeds/luci/applications/luci-app-docker
@@ -36,10 +41,26 @@ git clone https://github.com/DHDAXCW/theme
 # 更改默认shell为zsh
 sed -i 's/\/bin\/ash/\/usr\/bin\/zsh/g' package/base-files/files/etc/passwd
 
+# 安装oh-my-zsh
+mkdir -p files/root
+pushd files/root
+# Clone oh-my-zsh repository
+git clone https://github.com/ohmyzsh/ohmyzsh ./.oh-my-zsh
+
+# Install extra plugins
+git clone https://github.com/zsh-users/zsh-autosuggestions ./.oh-my-zsh/custom/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ./.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-completions ./.oh-my-zsh/custom/plugins/zsh-completions
+
+# Get .zshrc dotfile
+cp $GITHUB_WORKSPACE/scripts/.zshrc .
+popd
+
+
 # 后台IP设置
-export Ipv4_ipaddr="192.168.10.1"            # 修改openwrt后台地址(填0为关闭)
+export Ipv4_ipaddr="192.168.10.1"           # 修改openwrt后台地址(填0为关闭)
 export Netmask_netm="255.255.255.0"         # IPv4 子网掩码（默认：255.255.255.0）(填0为不作修改)
-export Op_name="5G CPE"                # 修改主机名称为OpenWrt-123(填0为不作修改)
+export Op_name="5G CPE"                     # 修改主机名称为OpenWrt-123(填0为不作修改)
 
 # 内核和系统分区大小(不是每个机型都可用)
 export Kernel_partition_size="0"            # 内核分区大小 (填写您想要的数值,数值以MB计算，填0为不作修改),如果你不懂就填0
