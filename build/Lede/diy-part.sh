@@ -53,9 +53,8 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ./.oh-my-zsh/
 git clone https://github.com/zsh-users/zsh-completions ./.oh-my-zsh/custom/plugins/zsh-completions
 
 # Get .zshrc dotfile
-cp $GITHUB_WORKSPACE/scripts/.zshrc .
+# cp $GITHUB_WORKSPACE/scripts/.zshrc .
 popd
-
 
 # 后台IP设置
 export Ipv4_ipaddr="192.168.10.1"           # 修改openwrt后台地址(填0为关闭)
