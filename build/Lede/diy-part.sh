@@ -4,6 +4,12 @@
 # 自行拉取插件之前请SSH连接进入固件配置里面确认过没有你要的插件再单独拉取你需要的插件
 # 不要一下就拉取别人一个插件包N多插件的，多了没用，增加编译错误，自己需要的才好
 
+#测试PCIE
+rm -rf package/wwan/app/luci-app-pcimodem
+rm -rf package/wwan/driver/quectel_MHI
+svn export https://github.com/Siriling/5G-Modem-Support/trunk/luci-app-pcimodem package/wwan/app/luci-app-pcimodem
+svn export https://github.com/Siriling/5G-Modem-Support/trunk/quectel_MHI package/wwan/driver/quectel_MHI
+
 #添加MT7921系列和AW7916网卡支持
 rm -rf package/libs/libnl-tiny
 rm -rf package/kernel/mac80211
