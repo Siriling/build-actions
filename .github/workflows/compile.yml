@@ -26,7 +26,7 @@ env:
 jobs:
   build:
     name: 编译 "${{matrix.target}}"
-    runs-on: self-hosted
+    runs-on: ubuntu-22.04
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
     
     env:
@@ -131,21 +131,12 @@ jobs:
         make defconfig
         make download -j8
     
-    # - name: 开始编译固件
-    #   id: compile
-    #   run: |
-    #     cd openwrt
-    #     echo -e "$(nproc) thread compile"
-    #     make -j$(($(nproc) + 1)) || make -j1 V=s
-    #     echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
-    #     source ${BUILD_PATH}/common.sh && firmware_jiance
-
     - name: 开始编译固件
       id: compile
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j1 V=s
+        make -j$(($(nproc) + 1)) || make -j1 V=s
         echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
         source ${BUILD_PATH}/common.sh && firmware_jiance
         
